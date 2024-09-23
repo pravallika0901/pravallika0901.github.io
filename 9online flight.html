@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('flight.jpg');
+            background-size: cover;
+            background-position: center;
+            scroll-behavior: smooth;
+            margin: 0;      
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #333333;
+            color: rgb(21, 228, 59);
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444444;
+            padding-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: rgb(46, 230, 175);
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #4CAF50;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 250px; /* Shift content to the right of the sidebar */
+        }
+
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(243, 239, 239, 0.9);
+            height: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Top Navigation Menu Bar */
+        nav {
+            background-color: #f5dcdc;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(187, 13, 13);
+            font-size: 18px;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #4CAF50;
+            color: rgb(188, 104, 104);
+        }
+
+        .section {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .section h3 {
+            margin-top: 20px;
+        }
+
+        .section img {
+            width: 80%;
+            max-width: 400px;
+            margin: 10px 0;
+        }
+
+        h3 {
+            color: #333333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input, select, textarea, button {
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #1836ce;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #af6a4c;
+            color: rgb(140, 21, 21);
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .footer img {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            nav ul li {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Image display styles */
+        .image-section {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .image-section img {
+            width: 80%;
+            max-width: 400px;
+            margin: 10px 0;
+        }
+
+        /* Background images for sections */
+        .section[data-background] {
+            background-image: var(--background);
+            background-size: cover;
+            background-position: center;
+            color: rgb(12, 10, 10); /* Change text color for better visibility */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="javascript:void(0)" onclick="showSection('login')">Flights</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('restaurant')">Restaurant</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('hotels')">Hotels & Rooms</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('car-rental')">Car Rental</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('airport-places')">Airport Nearby Places</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="header">
+                <h2>Welcome to Flight Booking</h2>
+
+                <!-- Top Navigation Menu Bar -->
+                <nav>
+                    <ul>
+                        <li><a href="javascript:void(0)" onclick="showSection('login')">Login</a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('book-ticket')">Book Ticket</a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('ticket-payment')">Ticket Payment</a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('my-ticket')">My Ticket</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Sections for each feature -->
+            <div class="section" id="login" data-background="url('login-bg.jpg')">
+                <h3>Login</h3>
+                <form id="loginForm" action="loginform.php" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" name="Username" id="username" placeholder="Enter username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" name="Password" id="password" placeholder="Enter password" required>
+                    <input type="submit" value="Login"/>
+                </form>
+            </div>
+
+            <div class="section" id="book-ticket" data-background="url('book-ticket-bg.jpg')">
+                <h3>Book Ticket</h3>
+              
+                    <label for="from">From:</label>
+                    <input type="text" x id="from" placeholder="Enter departure city" required>
+                    <label for="to">To:</label>
+                    <input type="text" id="to" placeholder="Enter destination city" required>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" required>
+                    <label for="class">Class:</label>
+                    <select id="class" required>
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                        <option value="first">First Class</option>
+                    </select>
+                    <button type="button" onclick="bookFlight()">Book Flight</button>
+                </form>
+            </div>
+
+            <div class="section" id="ticket-payment" data-background="url('payment-bg.jpg')">
+                <h3>Ticket Payment</h3>
+                <form>
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method">
+                        <option value="upi">UPI</option>
+                        <option value="credit-card">Credit Card</option>
+                        <option value="upi-scanner">UPI Scanner</option>
+                    </select>
+                    <button type="button" onclick="completePayment()">Complete Payment</button>
+                </form>
+            </div>
+
+            <div class="section" id="my-ticket" data-background="url('ticket.jpg')">
+                <h3>My Ticket</h3>
+                <p>Your booking details will appear here after payment.</p>
+            </div>
+
+            <div class="section" id="restaurant" data-background="url('restaurant-bg.jpg')">
+                <h3>Restaurant</h3>
+                <div class="image-section">
+                    <img src="1food.jpg" alt="Food Image 1">
+                    <img src="3food.jpg" alt="Food Image 2">
+                    <img src="5food.jpg" alt="Food Image 3">
+                    <img src="1 res.jpg" alt="Restaurant Image 4">
+                    <img src="2 res.jpg" alt="Restaurant Image 5">
+                </div>
+            </div>
+
+            <div class="section" id="hotels" data-background="url('hotels-bg.jpg')">
+                <h3>Hotels & Rooms</h3>
+                <div class="image-section">
+                    <img src="1room.jpg" alt="Hotel Image 1">
+                    <img src="2rooms.jpg" alt="Hotel Image 2">
+                    <img src="3room.jpg" alt="Hotel Image 3">
+                    <img src="4room.jpg" alt="Hotel Image 4">
+                    <img src="5room.jpg" alt="Hotel Image 5">
+                </div>
+            </div>
+
+            <div class="section" id="car-rental" data-background="url('car-rental-bg.jpg')">
+                <h3>Car Rental</h3>
+                <div class="image-section">
+                    <img src="1rent.jpg" alt="Car Image 1">
+                    <img src="2rent.jpg" alt="Car Image 2">
+                    <img src="3rent.jpg" alt="Car Image 3">
+                    <img src="4rent.jpg" alt="Car Image 4">
+                </div>
+            </div>
+
+            <div class="section" id="airport-places" data-background="url('airport-places-bg.jpg')">
+                <h3>Airport Nearby Places</h3>
+                <div class="image-section">
+                    <img src="1place.jpg" alt="Place Image 1">
+                    <img src="2place.jpg" alt="Place Image 2">
+                    <img src="3place.jpg" alt="Place Image 3">
+                    <img src="4place.jpg" alt="Place Image 4">
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="footer">
+                <h3>Flight Details & Contact Us</h3>
+                <img src="flight.jpg" alt="Flight Image 1">
+                <img src="flight1.jpg" alt="Flight Image 2">
+                <p><strong>Contact Us:</strong></p>
+                <p>Email: support@flightbooking.com</p>
+                <p>Phone: +1 234 567 890</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show login section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('login');
+        });
+
+        function showSection(sectionId) {
+            let sections = document.querySelectorAll('.section');
+            sections.forEach(function (section) {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.style.display = 'block';
+
+            // Set background image if applicable
+            const background = selectedSection.getAttribute('data-background');
+            if (background) {
+                selectedSection.style.backgroundImage = background;
+            }
+
+            // Show image section if applicable
+            let imageSection = selectedSection.querySelector('.image-section');
+            if (imageSection) {
+                imageSection.style.display = 'block';
+            }
+        }
+
+        function login() {
+            alert('Login successful');
+            showSection('book-ticket'); // Redirect to book ticket after login
+        }
+
+        function bookFlight() {
+            alert('Flight booked successfully');
+            showSection('ticket-payment'); // Redirect to ticket payment after booking flight
+        }
+
+        function completePayment() {
+            alert('Payment successful');
+            showSection('my-ticket'); // Redirect to my ticket after payment
+        }
+    </script>
+</body>
+</html>

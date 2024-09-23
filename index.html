@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('flight.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: #f2f2f2;
+        }
+        .container { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-box, .booking-box, .payment-box, .my-ticket-box, .flight-issues, .about-flights { background-color: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); text-align: center; width: 400px; }
+        h2 { margin-bottom: 20px; color: #333; }
+        input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        input[type="submit"], input[type="button"] { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input[type="submit"]:hover, input[type="button"]:hover { background-color: #45a049; }
+        .footer { position: fixed; bottom: 10px; width: 100%; text-align: center; color: #333; }
+        .sidebar { position: absolute; left: 0; width: 300px; height: 100%; background-color: #333; padding-top: 20px; color: #fff; text-align: center; }
+        .sidebar h2 { color: #fff; }
+        .sidebar a { display: block; color: #fff; padding: 10px; text-decoration: none; }
+        .sidebar a:hover { background-color: #575757; }
+        .thank-you-message { color: green; }
+        .forgot-password { margin-top: 10px; text-align: right; }
+        .forgot-password a { color: #007BFF; text-decoration: none; }
+        .forgot-password a:hover { text-decoration: underline; }
+        .hidden { display: none; }
+        .ticket-image { width: 100%; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <!-- Sidebar with Flight Options -->
+    <div class="sidebar">
+        <h2>Flight Options</h2>
+        <a href="#" id="search-flights">Search Flights</a>
+        <a href="#" id="about-flights">About Flights</a>
+        <a href="#" id="issues-flights">Issues of Flights</a>
+    </div>
+
+    <!-- Login Page -->
+    <div class="container" id="login-page">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <input type="submit" value="Login">
+                <div class="forgot-password">
+                    <a href="#" id="forgot-password">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Page -->
+    <div class="container hidden" id="forgot-password-page">
+        <div class="login-box">
+            <h2>Forgot Password</h2>
+            <form id="forgotPasswordForm">
+                <select required>
+                    <option value="">Select Recovery Method</option>
+                    <option value="email">Email</option>
+                    <option value="sms">Phone Number (SMS)</option>
+                </select>
+                <input type="text" placeholder="Enter Email or Phone Number" required>
+                <input type="submit" value="Send Recovery Code">
+            </form>
+        </div>
+    </div>
+
+    <!-- Ticket Booking Page -->
+    <div class="container hidden" id="booking-page">
+        <div class="booking-box">
+            <h2>Book Your Flight</h2>
+            <form id="bookingForm">
+                <input type="text" placeholder="Passenger Name" required>
+                <input type="text" placeholder="Contact Number" required>
+                <input type="number" placeholder="Age" required min="1">
+                <select required>
+                    <option value="">Select Destination</option>
+                    <option value="New York">New York</option>
+                    <option value="London">London</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Sydney">Sydney</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="India">India</option>
+                    <option value="America">America</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Dehli">Dehli</option>
+                    <option value="Koria">Koria</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                </select>
+                <select required>
+                    <option value="">Select Departure</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                    <option value="Dubai">Dubai</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="India">India</option>
+                    <option value="America">America</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Dehli">Dehli</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Koria">Koria</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Sydney">Sydney</option>
+                
+                </select>
+                <select id="trip-type" required>
+                    <option value="">Select Trip Type</option>
+                    <option value="one-way">One-Way</option>
+                    <option value="round-trip">Round Trip</option>
+                </select>
+                <select required>
+                    <option value="">Select Class</option>
+                    <option value="Economy">Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First Class">First Class</option>
+                </select>
+                <p>Discounts and Offers available for Round Trip!</p>
+                <input type="number" placeholder="Number of Passengers" id="num-passengers" min="1" max="5">
+                <div id="passenger-details"></div>
+                <input type="submit" value="Proceed to Payment">
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div class="container hidden" id="payment-page">
+        <div class="payment-box">
+            <h2>Payment</h2>
+            <form id="paymentForm">
+                <select id="payment-method" required>
+                    <option value="">Payment Method</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="upi">UPI</option>
+                    <option value="net-banking">Net Banking</option>
+                </select>
+                <div id="credit-card-fields" class="hidden">
+                    <input type="text" placeholder="Account Number" required>
+                    <input type="text" placeholder="CVV" required>
+                    <input type="text" placeholder="Valid Date" required>
+                </div>
+                <div id="upi-options" class="hidden">
+                    <select required>
+                        <option value="phonepe">PhonePe</option>
+                        <option value="gpay">GPay</option>
+                        <option value="paytm">Paytm</option>
+                    </select>
+                </div>
+                <div id="axis-bank-discount" class="hidden">
+                    <p>Axis Bank users get 20% off!</p>
+                </div>
+                <input type="submit" value="Pay Now">
+            </form>
+        </div>
+    </div>
+
+    <!-- My Ticket Page -->
+    <div class="container hidden" id="my-ticket-page">
+        <div class="my-ticket-box">
+            <h2>My Ticket</h2>
+            <p>Thank you for booking with us. Here are your ticket details:</p>
+            <img src="ticket.jpg" alt="Ticket Image" class="ticket-image">
+            <p>Passenger: <span id="ticket-passenger"></span></p>
+            <p>Destination: <span id="ticket-destination"></span></p>
+            <p>Trip Type: <span id="ticket-trip-type"></span></p>
+            <p>Class: <span id="ticket-class"></span></p>
+            <p class="thank-you-message">Thanks for choosing our airline. Please be at the gate at boarding time. Have a safe journey!</p>
+            <input type="button" value="Print Ticket" onclick="printTicket();">
+            <input type="button" value="Cancel Ticket" onclick="Cancel Ticket();"> <!-- Cancel Ticket option -->
+        </div>
+    </div>
+
+    <!-- Flight Issues Section -->
+    <div class="container" id="flight-issues-page">
+        <div class="flight-issues">
+            <h2>Flight Issues</h2>
+            <p>Current flight issues:</p>
+            <ul>
+                <li>Turbulence or rough landing</li>
+                <li>Cabin pressure or air quality issues</li>
+                <li>Limited legroom or uncomfortable seating</li>
+                <li>In-flight entertainment system failure</li>
+                <li>Unappetizing or cold food service</li>
+                <li>Flight delays or cancellations</li>
+                <li>Booking errors or customer service issues</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">© 2024 Flight Booking System. All Rights Reserved.</div>
+
+    <script>
+        // JavaScript to handle form submissions and page navigation
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Assume login is successful
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('booking-page').classList.remove('hidden');
+        };
+
+        document.getElementById('forgot-password').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('forgot-password-page').classList.remove('hidden');
+        };
+
+        document.getElementById('bookingForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Store booking details in session or global variable as needed
+            document.getElementById('booking-page').classList.add('hidden');
+            document.getElementById('payment-page').classList.remove('hidden');
+        };
+
+        document.getElementById('paymentForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Assume payment is successful
+            document.getElementById('payment-page').classList.add('hidden');
+            document.getElementById('my-ticket-page').classList.remove('hidden');
+            // Populate ticket details
+            document.getElementById('ticket-passenger').innerText = "John Doe"; // Replace with actual passenger name
+            document.getElementById('ticket-destination').innerText = "New York"; // Replace with actual destination
+            document.getElementById('ticket-trip-type').innerText = "Round Trip"; // Replace with actual trip type
+            document.getElementById('ticket-class').innerText = "Economy"; // Replace with actual class
+        };
+
+        function printTicket() {
+            window.print();
+            // Redirect to login page after printing
+            document.getElementById('my-ticket-page').classList.remove('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+        }
+
+        // Show/hide payment fields based on payment method selection
+        document.getElementById('payment-method').onchange = function() {
+            var creditCardFields = document.getElementById('credit-card-fields');
+            var upiOptions = document.getElementById('upi-options');
+            var axisBankDiscount = document.getElementById('axis-bank-discount');
+            if (this.value === 'credit-card') {
+                creditCardFields.classList.remove('hidden');
+                upiOptions.classList.add('hidden');
+                axisBankDiscount.classList.remove('hidden');
+            } else if (this.value === 'upi') {
+                creditCardFields.classList.remove('hidden');
+                upiOptions.classList.remove('hidden');
+                axisBankDiscount.classList.remove('hidden');
+            } else {
+                creditCardFields.classList.remove('hidden');
+                upiOptions.classList.remove('hidden');
+                axisBankDiscount.classList.remove('hidden');
+            }
+        };
+
+        // Update passenger details based on the number of passengers
+        document.getElementById('num-passengers').onchange = function() {
+            var numPassengers = this.value;
+            var passengerDetailsDiv = document.getElementById('passenger-details');
+            passengerDetailsDiv.innerHTML = ''; // Clear previous details
+            for (let i = 0; i < numPassengers; i++) {
+                passengerDetailsDiv.innerHTML += `
+                    <div>
+                        <input type="text" placeholder="Passenger ${i + 1} Name" required>
+                        <select required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="number" placeholder="Age" required min="1">
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>
